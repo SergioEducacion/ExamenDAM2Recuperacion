@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Examen1ViewModel</string>
+    <string name="p1">Pantalla1</string>
+    <string name="p2">Pantalla2</string>
+</resources>
