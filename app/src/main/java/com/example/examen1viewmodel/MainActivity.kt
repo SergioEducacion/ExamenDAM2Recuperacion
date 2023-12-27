@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -46,7 +47,8 @@ enum class PrincipalScreen(@StringRes val title: Int) {
 
 @Composable
 fun Principal(navController: NavHostController = rememberNavController()) {
-    val viewModelApostar = ApostarViewModel()
+    val viewModelApostar: ApostarViewModel = viewModel()
+    //val viewModelApostar = ApostarViewModel()  //Esto funcionaria, pero es preferible llamarlo tal y como está arriba
     val uiState by viewModelApostar.uiState.collectAsState()
     NavHost(
         navController = navController,
@@ -54,7 +56,10 @@ fun Principal(navController: NavHostController = rememberNavController()) {
         //modifier = Modifier.padding(innerPadding)
     ) {
         composable(route = PrincipalScreen.Pantalla1.name) {
-            PantallaLoteria(viewModelApostar= viewModelApostar, uiState=uiState, onClickCambiarPantalla = { navController.navigate(PrincipalScreen.Pantalla2.name) })
+            PantallaLoteria(
+                viewModelApostar = viewModelApostar,
+                uiState = uiState,
+                onClickCambiarPantalla = { navController.navigate(PrincipalScreen.Pantalla2.name) })
         }
         composable(route = PrincipalScreen.Pantalla2.name) {
             PantallaVacia()
