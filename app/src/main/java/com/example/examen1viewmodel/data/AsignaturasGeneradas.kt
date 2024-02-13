@@ -1,14 +1,14 @@
 package com.example.examen1viewmodel.data
 
 object DataSource {
-    val loterias = arrayListOf<Asignaturas>(
-        Asignaturas("Historia", 8),
-        Asignaturas("Lengua", 9),
-        Asignaturas("Inglés", 12),
-        Asignaturas("Sociales", 12),
-        Asignaturas("Biología", 10),
-        Asignaturas("Física", 9),
-        Asignaturas("Química", 9),
+    val loterias = arrayListOf<Asignatura>(
+        Asignatura("Historia", 8),
+        Asignatura("Lengua", 9),
+        Asignatura("Inglés", 12),
+        Asignatura("Sociales", 12),
+        Asignatura("Biología", 10),
+        Asignatura("Física", 9),
+        Asignatura("Química", 9),
 
         )
 }

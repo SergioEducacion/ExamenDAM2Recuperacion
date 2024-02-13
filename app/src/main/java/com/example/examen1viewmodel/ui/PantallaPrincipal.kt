@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -26,14 +25,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.examen1viewmodel.data.ApostarUIState
 import com.example.examen1viewmodel.data.DataSource
-import com.example.examen1viewmodel.data.Asignaturas
+import com.example.examen1viewmodel.data.Asignatura
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PantallaLoteria(
+fun PantallaAcademia(
     modifier: Modifier = Modifier,
-    loterias: ArrayList<Asignaturas> = DataSource.loterias,
+    loterias: ArrayList<Asignatura> = DataSource.loterias,
     onClickCambiarPantalla: () -> Unit,
     viewModelApostar: ApostarViewModel,
     uiState: ApostarUIState
@@ -82,7 +81,7 @@ private fun TextoActualizandose(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .height(200.dp)
+            //.height(200.dp)
             .background(Color.LightGray)
             //.weight(0.25f)
             .padding(8.dp),
@@ -90,16 +89,12 @@ private fun TextoActualizandose(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = uiState.textoMostrar,
+            text = "Ultima acción:\n"+uiState.textoMostrarUltimaAccion,
+            modifier = modifier.background(Color.Magenta).fillMaxWidth()
         )
         Text(
-            text = "Has jugado " + uiState.jugadoVeces + " veces en loteria",
-        )
-        Text(
-            text = "Has gastado " + uiState.gastadoTotal + " euros en loteria",
-        )
-        Text(
-            text = "Has ganado " + uiState.ganadoTotal + " euros en loteria",
+            text = "Resumen:\n"+uiState.textoMostrarResumen,
+            modifier = modifier.background(Color.White).fillMaxWidth()
         )
     }
 }
@@ -107,7 +102,7 @@ private fun TextoActualizandose(
 @Composable
 private fun AsignaturasScroll(
     modifier: Modifier,
-    asignaturas: ArrayList<Asignaturas>,
+    asignaturas: ArrayList<Asignatura>,
     viewModelApostar: ApostarViewModel,
     uiState: ApostarUIState,
 
@@ -145,7 +140,6 @@ private fun AsignaturasScroll(
                     {
                         viewModelApostar.addAsignaturaCantidad(
                             asignatura.nombre,
-                            uiState.loteriaCantidadApostada
                         )
                     },
                     modifier = Modifier
@@ -158,7 +152,6 @@ private fun AsignaturasScroll(
                     {
                         viewModelApostar.removeAsignaturaCantidad(
                             asignatura.nombre,
-                            uiState.loteriaCantidadApostada
                         )
                     },
                     modifier = Modifier
@@ -176,12 +169,12 @@ private fun TextFieldyBoton(viewModelApostar: ApostarViewModel, uiState: Apostar
 
     Row() {
         TextField(
-            value = uiState.loteriaCantidadApostada,
+            value = viewModelApostar.cantidadAddRemoveUsuario,
             singleLine = true,
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
-            onValueChange = { viewModelApostar.setCantidadAApostar(it) },
+            onValueChange = { viewModelApostar.setCantidadAddRemoveFromUsuario(it) },
             label = { Text("Horas a contratar o a eliminar") },
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number,
