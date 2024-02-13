@@ -73,7 +73,7 @@ class ApostarViewModel : ViewModel() {
         jugadoVeces += 1
         if (numeroLoteriaSacado == numeroLoteriaComprado) {
             textoMostrar = "Has ganado la lotería"
-            ganadoTotal += loteria.premio * cantidadApostada
+            ganadoTotal += loteria.precioHora * cantidadApostada
         } else {
             textoMostrar = "Has perdido a la lotería"
         }
@@ -86,5 +86,13 @@ class ApostarViewModel : ViewModel() {
                 textoMostrar = textoMostrar,
             )
         }
+    }
+
+    fun addAsignaturaCantidad(nombre: String, loteriaCantidadApostada: String) {
+
+    }
+
+    fun removeAsignaturaCantidad(nombre: String, loteriaCantidadApostada: String) {
+
     }
 }

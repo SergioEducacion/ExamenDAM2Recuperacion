@@ -8,8 +8,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -25,14 +26,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.examen1viewmodel.data.ApostarUIState
 import com.example.examen1viewmodel.data.DataSource
-import com.example.examen1viewmodel.data.LoteriaTipo
+import com.example.examen1viewmodel.data.Asignaturas
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PantallaLoteria(
     modifier: Modifier = Modifier,
-    loterias: ArrayList<LoteriaTipo> = DataSource.loterias,
+    loterias: ArrayList<Asignaturas> = DataSource.loterias,
     onClickCambiarPantalla: () -> Unit,
     viewModelApostar: ApostarViewModel,
     uiState: ApostarUIState
@@ -40,14 +41,14 @@ fun PantallaLoteria(
 
     Column() {
         Text(
-            text = "Bienvenido a apuestas ViewModel",
+            text = "Bienvenido a la academia de Sergio/xxxx",
             modifier = modifier
                 .fillMaxWidth()
                 .background(Color.LightGray)
                 //.weight(0.25f)
-                .padding(start = 20.dp, top = 50.dp)
+                .padding(start = 20.dp, top = 10.dp)
         )
-        LoteriasScroll(
+        AsignaturasScroll(
             modifier,
             loterias,
             viewModelApostar,
@@ -60,6 +61,7 @@ fun PantallaLoteria(
         )
         TextoActualizandose(modifier, uiState)
 
+        /*
         Button(
             onClick = onClickCambiarPantalla,
             modifier = Modifier
@@ -67,7 +69,7 @@ fun PantallaLoteria(
                 .padding(16.dp)
         ) {
             Text(text = "Cambiar de pantalla")
-        }
+        }*/
     }
 }
 
@@ -103,52 +105,67 @@ private fun TextoActualizandose(
 }
 
 @Composable
-private fun LoteriasScroll(
+private fun AsignaturasScroll(
     modifier: Modifier,
-    loterias: ArrayList<LoteriaTipo>,
+    asignaturas: ArrayList<Asignaturas>,
     viewModelApostar: ApostarViewModel,
     uiState: ApostarUIState,
 
     ) {
-    LazyRow(
-        modifier = modifier
+    LazyVerticalGrid(columns = GridCells.Fixed(2),
+        modifier = modifier.height(300.dp)
             .fillMaxWidth()
     ) {
-        items(loterias) { loteria ->
+        items(asignaturas) { asignatura ->
             Card(
                 modifier = modifier
                     .padding(8.dp)
-                    .width(250.dp)
+
             ) {
                 Text(
-                    text = "Nombre: ${loteria.nombre}",
+                    text = "Asig: ${asignatura.nombre}",
                     modifier = Modifier
                         .background(Color.Yellow)
                         .fillMaxWidth()
                         .padding(20.dp)
                 )
                 Text(
-                    text = "Premio: ${loteria.premio.toString()}",
+                    text = "€/hora: ${asignatura.precioHora.toString()}",
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(Color.Cyan)
                         .padding(20.dp)
                 )
+                Row(          modifier = Modifier
+                    .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ){
                 Button(
                     onClick =
                     {
-                        viewModelApostar.intentarApuesta(
-                            loteria.nombre,
+                        viewModelApostar.addAsignaturaCantidad(
+                            asignatura.nombre,
                             uiState.loteriaCantidadApostada
                         )
                     },
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
                 ) {
-                    Text(text = "Apostar")
+                    Text(text = "+")
                 }
-            }
+
+                Button(
+                    onClick =
+                    {
+                        viewModelApostar.removeAsignaturaCantidad(
+                            asignatura.nombre,
+                            uiState.loteriaCantidadApostada
+                        )
+                    },
+                    modifier = Modifier
+                ) {
+                    Text(text = "-")
+                }
+            }}
         }
     }
 }
@@ -159,43 +176,18 @@ private fun TextFieldyBoton(viewModelApostar: ApostarViewModel, uiState: Apostar
 
     Row() {
         TextField(
-            value = uiState.loteriaNombre,
-            singleLine = true,
-            modifier = Modifier
-                .padding(16.dp)
-                .weight(1f),
-            onValueChange = { viewModelApostar.setLoteriaAApostar(it) },
-            label = { Text("Loteria") },
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next
-            )
-        )
-        TextField(
             value = uiState.loteriaCantidadApostada,
             singleLine = true,
             modifier = Modifier
                 .padding(16.dp)
-                .weight(1f),
+                .fillMaxWidth(),
             onValueChange = { viewModelApostar.setCantidadAApostar(it) },
-            label = { Text("Dinero apostado") },
+            label = { Text("Horas a contratar o a eliminar") },
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Next
             )
         )
-    }
-    Button(
-        onClick =
-        {
-            viewModelApostar.intentarApuesta(uiState.loteriaNombre, uiState.loteriaCantidadApostada)
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        Text(text = "Jugar loteria escrita")
-        //Text(text = ejemplo.value)
     }
 }
 
