@@ -84,7 +84,7 @@ private fun TextoActualizandose(
             //.height(200.dp)
             .background(Color.LightGray)
             //.weight(0.25f)
-            .padding(8.dp),
+            .padding(30.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
