@@ -16,7 +16,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.examen1viewmodel.ui.ApostarViewModel
+import com.example.examen1viewmodel.ui.AcademiaViewModel
 
 import com.example.examen1viewmodel.ui.PantallaAcademia
 import com.example.examen1viewmodel.ui.PantallaVacia
@@ -47,7 +47,7 @@ enum class PrincipalScreen(@StringRes val title: Int) {
 
 @Composable
 fun Principal(navController: NavHostController = rememberNavController()) {
-    val viewModelApostar: ApostarViewModel = viewModel()
+    val viewModelApostar: AcademiaViewModel = viewModel()
     viewModelApostar.iniciarlizarValores();
     //val viewModelApostar = ApostarViewModel()  //Esto funcionaria, pero es preferible llamarlo tal y como está arriba
     val uiState by viewModelApostar.uiState.collectAsState()

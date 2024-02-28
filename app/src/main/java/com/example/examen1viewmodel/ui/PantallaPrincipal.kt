@@ -23,7 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.example.examen1viewmodel.data.ApostarUIState
+import com.example.examen1viewmodel.data.AcademiaUIState
 import com.example.examen1viewmodel.data.DataSource
 import com.example.examen1viewmodel.data.Asignatura
 
@@ -32,12 +32,11 @@ import com.example.examen1viewmodel.data.Asignatura
 @Composable
 fun PantallaAcademia(
     modifier: Modifier = Modifier,
-    loterias: ArrayList<Asignatura> = DataSource.loterias,
+    loterias: ArrayList<Asignatura> = DataSource.asignaturas,
     onClickCambiarPantalla: () -> Unit,
-    viewModelApostar: ApostarViewModel,
-    uiState: ApostarUIState
+    viewModelApostar: AcademiaViewModel,
+    uiState: AcademiaUIState
 ) {
-
     Column() {
         Text(
             text = "Bienvenido a la academia de Sergio/xxxx",
@@ -60,7 +59,7 @@ fun PantallaAcademia(
         )
         TextoActualizandose(modifier, uiState)
 
-        /*
+
         Button(
             onClick = onClickCambiarPantalla,
             modifier = Modifier
@@ -68,14 +67,14 @@ fun PantallaAcademia(
                 .padding(16.dp)
         ) {
             Text(text = "Cambiar de pantalla")
-        }*/
+        }
     }
 }
 
 @Composable
 private fun TextoActualizandose(
     modifier: Modifier,
-    uiState: ApostarUIState,
+    uiState: AcademiaUIState,
 
     ) {
     Column(
@@ -90,11 +89,19 @@ private fun TextoActualizandose(
     ) {
         Text(
             text = "Ultima acción:\n"+uiState.textoMostrarUltimaAccion,
-            modifier = modifier.background(Color.Magenta).fillMaxWidth()
+            modifier = modifier.background(Color.Yellow).fillMaxWidth()
         )
         Text(
             text = "Resumen:\n"+uiState.textoMostrarResumen,
             modifier = modifier.background(Color.White).fillMaxWidth()
+        )
+        Text(
+            text = "Total horas: "+uiState.totalHoras,
+            modifier = modifier.background(Color.Yellow).fillMaxWidth()
+        )
+        Text(
+            text = "Total precio: "+uiState.totalPrecio,
+            modifier = modifier.background(Color.Yellow).fillMaxWidth()
         )
     }
 }
@@ -103,8 +110,8 @@ private fun TextoActualizandose(
 private fun AsignaturasScroll(
     modifier: Modifier,
     asignaturas: ArrayList<Asignatura>,
-    viewModelApostar: ApostarViewModel,
-    uiState: ApostarUIState,
+    viewModelAcademia: AcademiaViewModel,
+    uiState: AcademiaUIState,
 
     ) {
     LazyVerticalGrid(columns = GridCells.Fixed(2),
@@ -138,7 +145,7 @@ private fun AsignaturasScroll(
                 Button(
                     onClick =
                     {
-                        viewModelApostar.addAsignaturaCantidad(
+                        viewModelAcademia.addAsignaturaCantidad(
                             asignatura.nombre,
                         )
                     },
@@ -150,7 +157,7 @@ private fun AsignaturasScroll(
                 Button(
                     onClick =
                     {
-                        viewModelApostar.removeAsignaturaCantidad(
+                        viewModelAcademia.removeAsignaturaCantidad(
                             asignatura.nombre,
                         )
                     },
@@ -165,7 +172,7 @@ private fun AsignaturasScroll(
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-private fun TextFieldyBoton(viewModelApostar: ApostarViewModel, uiState: ApostarUIState) {
+private fun TextFieldyBoton(viewModelApostar: AcademiaViewModel, uiState: AcademiaUIState) {
 
     Row() {
         TextField(

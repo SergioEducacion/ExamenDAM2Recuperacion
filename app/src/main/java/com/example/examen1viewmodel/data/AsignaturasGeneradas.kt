@@ -1,7 +1,7 @@
 package com.example.examen1viewmodel.data
 
 object DataSource {
-    val loterias = arrayListOf<Asignatura>(
+    val asignaturas = arrayListOf<Asignatura>(
         Asignatura("Historia", 8),
         Asignatura("Lengua", 9),
         Asignatura("Inglés", 12),
